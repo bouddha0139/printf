@@ -17,6 +17,7 @@ int print_unsigned(va_list types, char buffer[],
 	int i = BUFF_SIZE - 2;
 	unsigned long int num = va_arg(types, unsigned long int);
 
+/*Convert number based on size specifier*/
 	num = convert_size_unsgnd(num, size);
 
 	if (num == 0)
@@ -24,6 +25,7 @@ int print_unsigned(va_list types, char buffer[],
 
 	buffer[BUFF_SIZE - 1] = '\0';
 
+/*Convert the number to its ASCII representation*/
 	while (num > 0)
 	{
 		buffer[i--] = (num % 10) + '0';
@@ -32,6 +34,7 @@ int print_unsigned(va_list types, char buffer[],
 
 	i++;
 
+/*Delegate unsigned number printing to a helper function*/
 	return (write_unsgnd(0, i, buffer, flags, width, precision, size));
 }
 
@@ -56,6 +59,7 @@ int print_octal(va_list types, char buffer[],
 
 	UNUSED(width);
 
+/*Convert number based on size specifier*/
 	num = convert_size_unsgnd(num, size);
 
 	if (num == 0)
@@ -63,12 +67,14 @@ int print_octal(va_list types, char buffer[],
 
 	buffer[BUFF_SIZE - 1] = '\0';
 
+/*Convert the number to its octal representation*/
 	while (num > 0)
 	{
 		buffer[i--] = (num % 8) + '0';
 		num /= 8;
 	}
 
+/*Add '0' prefix if F_HASH flag is present and the number is not zero*/
 	if (flags & F_HASH && init_num != 0)
 		buffer[i--] = '0';
 
@@ -136,6 +142,7 @@ int print_hexa(va_list types, char map_to[], char buffer[],
 
 	UNUSED(width);
 
+/*Convert number based on size specifier*/
 	num = convert_size_unsgnd(num, size);
 
 	if (num == 0)
