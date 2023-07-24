@@ -3,18 +3,19 @@
  * handle_print - Prints an argument based on its type
  * @fmt: Formatted string in which to print the arguments.
  * @list: List of arguments to be printed.
- * @ind: ind.
+ * @ind: ind.Pointer to the current position in the format string
  * @buffer: Buffer array to handle print.
  * @flags: Calculates active flags
  * @width: get width.
  * @precision: Precision specification
  * @size: Size specifier
- * Return: 1 or 2;
+ * Return: 1 or 2;-1 if an unsupported format is found.
  */
 int handle_print(const char *fmt, int *ind, va_list list, char buffer[],
 	int flags, int width, int precision, int size)
 {
 	int i, unknow_len = 0, printed_chars = -1;
+/*array of format specifiers and their corresponding functions*/
 	fmt_t fmt_types[] = {
 		{'c', print_char}, {'s', print_string}, {'%', print_percent},
 		{'i', print_int}, {'d', print_int}, {'b', print_binary},
@@ -30,18 +31,24 @@ int handle_print(const char *fmt, int *ind, va_list list, char buffer[],
 	{
 		if (fmt[*ind] == '\0')
 			return (-1);
+/*handle the unknown character*/
 		unknow_len += write(1, "%%", 1);
+/*If a space before the unknown format specifier, print the space too*/
 		if (fmt[*ind - 1] == ' ')
 			unknow_len += write(1, " ", 1);
+/*If a width specifier is present (e.g., %5d),*/
+/*move back to the width specifier*/
 		else if (width)
 		{
 			--(*ind);
+/*Move back until a space or another percent sign is found*/
 			while (fmt[*ind] != ' ' && fmt[*ind] != '%')
 				--(*ind);
 			if (fmt[*ind] == ' ')
 				--(*ind);
 			return (1);
 		}
+/* Print the unknown character itself if it's not a special case*/
 		unknow_len += write(1, &fmt[*ind], 1);
 		return (unknow_len);
 	}
