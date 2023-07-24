@@ -29,6 +29,7 @@ int print_pointer(va_list types, char buffer[],
 	buffer[BUFF_SIZE - 1] = '\0';
 	UNUSED(precision);
 
+/*Convert the pointer's address to its hexadecimal representation*/
 	num_addrs = (unsigned long)addrs;
 
 	while (num_addrs > 0)
@@ -38,6 +39,7 @@ int print_pointer(va_list types, char buffer[],
 		length++;
 	}
 
+/*Check if extra characters are needed based on flags*/
 	if ((flags & F_ZERO) && !(flags & F_MINUS))
 		padd = '0';
 	if (flags & F_PLUS)
@@ -123,9 +125,11 @@ int print_reverse(va_list types, char buffer[],
 
 		str = ")Null(";
 	}
+/*Calculate the length of the string*/
 	for (i = 0; str[i]; i++)
 		;
 
+/*Print the string in reverse order*/
 	for (i = i - 1; i >= 0; i--)
 	{
 		char z = str[i];
