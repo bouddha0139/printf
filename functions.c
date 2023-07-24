@@ -17,6 +17,7 @@ int print_char(va_list types, char buffer[],
 {
 	char c = va_arg(types, int);
 
+/*Delegate character printing to a helper function*/
 	return (handle_write_char(c, buffer, flags, width, precision, size));
 }
 /************************* PRINT A STRING *************************/
@@ -116,8 +117,10 @@ int print_int(va_list types, char buffer[],
 	long int n = va_arg(types, long int);
 	unsigned long int num;
 
+/*Convert number based on size specifier*/
 	n = convert_size_number(n, size);
 
+/*Handle special case when the number is zero*/
 	if (n == 0)
 		buffer[i--] = '0';
 
@@ -130,6 +133,7 @@ int print_int(va_list types, char buffer[],
 		is_negative = 1;
 	}
 
+/*Convert the number to its ASCII representation*/
 	while (num > 0)
 	{
 		buffer[i--] = (num % 10) + '0';
@@ -165,9 +169,12 @@ int print_binary(va_list types, char buffer[],
 	UNUSED(precision);
 	UNUSED(size);
 
+/*Retrieve the number from the argument list*/
 	n = va_arg(types, unsigned int);
 	m = 2147483648; /* (2 ^ 31) */
 	a[0] = n / m;
+
+/*Convert the number to binary representation*/
 	for (i = 1; i < 32; i++)
 	{
 		m /= 2;
