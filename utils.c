@@ -8,6 +8,7 @@
  */
 int is_printable(char c)
 {
+/*If the character falls within the printable ASCII range*/
 	if (c >= 32 && c < 127)
 		return (1);
 
@@ -19,7 +20,7 @@ int is_printable(char c)
  * @buffer: Array of chars.
  * @i: Index at which to start appending.
  * @ascii_code: ASSCI CODE.
- * Return: Always 3
+ * Return: Always 3 (the number of char added:\x plus two hex digits)
  */
 int append_hexa_code(char ascii_code, char buffer[], int i)
 {
