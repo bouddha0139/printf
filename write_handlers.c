@@ -21,6 +21,7 @@ int handle_write_char(char c, char buffer[],
 	UNUSED(precision);
 	UNUSED(size);
 
+/*Check if zero-padding is required*/
 	if (flags & F_ZERO)
 		padd = '0';
 
@@ -33,6 +34,7 @@ int handle_write_char(char c, char buffer[],
 		for (i = 0; i < width - 1; i++)
 			buffer[BUFF_SIZE - i - 2] = padd;
 
+	/*Print the character and padding based on flags*/
 		if (flags & F_MINUS)
 			return (write(1, &buffer[0], 1) +
 					write(1, &buffer[BUFF_SIZE - i - 1], width - 1));
@@ -73,6 +75,7 @@ int write_number(int is_negative, int ind, char buffer[],
 		extra_ch = '+';
 	else if (flags & F_SPACE)
 		extra_ch = ' ';
+/* Delegate number printing to a helper function*/
 
 	return (write_num(ind, buffer, flags, width, precision,
 		length, padd, extra_ch));
@@ -97,6 +100,7 @@ int write_num(int ind, char buffer[],
 {
 	int i, padd_start = 1;
 
+/*Handle special case where number is 0 and precision is 0*/
 	if (prec == 0 && ind == BUFF_SIZE - 2 && buffer[ind] == '0' && width == 0)
 		return (0); /* printf(".0d", 0)  no char is printed */
 	if (prec == 0 && ind == BUFF_SIZE - 2 && buffer[ind] == '0')
