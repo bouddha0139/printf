@@ -30,7 +30,7 @@ int get_width(const char *format, int *i, va_list list)
 		else
 			break;
 	}
-/*Update the pointer 'i' to point to the last checked position in the format string*/
+/*Update the pointer 'i' to point to the last checked position*/
 	*i = curr_i - 1;
 
 	return (width);
